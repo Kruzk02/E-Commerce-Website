@@ -42,7 +42,7 @@ public class AuthController {
             }
 
             Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                    loginDTO.getUsername(),loginDTO.getPassword()));
+                    loginDTO.getUsername(), loginDTO.getPassword()));
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
             logger.info("User '{}' logged in successfully.", loginDTO.getUsername());
@@ -64,13 +64,13 @@ public class AuthController {
             return ResponseEntity.badRequest().body("Email is already taken");
         }
 
-        covertDTOToEntity(signupDTO);
+        saveUserInfo(signupDTO);
         logger.info("User '{}' registered successfully.", signupDTO.getUsername());
 
         return ResponseEntity.ok("User registered successfully");
     }
 
-    private void covertDTOToEntity(SignupDTO signupDTO){
+    private void saveUserInfo(SignupDTO signupDTO){
         User user = new User();
         user.setEmail(signupDTO.getEmail());
         user.setUsername(signupDTO.getUsername());

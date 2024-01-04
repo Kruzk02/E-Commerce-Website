@@ -1,6 +1,5 @@
 package com.vn.ECommerce.Model;
 
-import jakarta.annotation.Nonnull;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,24 +10,29 @@ import java.util.Collection;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
-public class User {
+public class Role {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private String username;
-    private String email;
-    private String password;
+    private String name;
+
+    @ManyToMany(mappedBy = "roles")
+    private Collection<User> users;
 
     @ManyToMany
     @JoinTable(
-            name = "users_roles",
+            name = "roles_privileges",
             joinColumns = @JoinColumn(
-                    name = "user_id",referencedColumnName = "id"),
+                    name = "roles_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(
-                    name = "role_id",referencedColumnName = "id"))
-    private Collection<Role> roles;
+                    name = "privileges_id",referencedColumnName = "id"))
+    private Collection<Privilege> privileges;
+
+    public Role(String name) {
+        this.name = name;
+    }
 }
