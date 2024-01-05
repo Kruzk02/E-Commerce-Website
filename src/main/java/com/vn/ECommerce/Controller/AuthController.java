@@ -64,18 +64,9 @@ public class AuthController {
             return ResponseEntity.badRequest().body("Email is already taken");
         }
 
-        saveUserInfo(signupDTO);
+        userService.saveUser(signupDTO);
         logger.info("User '{}' registered successfully.", signupDTO.getUsername());
 
         return ResponseEntity.ok("User registered successfully");
-    }
-
-    private void saveUserInfo(SignupDTO signupDTO){
-        User user = new User();
-        user.setEmail(signupDTO.getEmail());
-        user.setUsername(signupDTO.getUsername());
-        user.setPassword(signupDTO.getPassword());
-
-        userService.saveUser(user);
     }
 }

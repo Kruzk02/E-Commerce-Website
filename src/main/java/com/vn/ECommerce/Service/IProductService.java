@@ -1,5 +1,6 @@
 package com.vn.ECommerce.Service;
 
+import com.vn.ECommerce.DTO.ProductDTO;
 import com.vn.ECommerce.Model.Product;
 import com.vn.ECommerce.Repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,17 +29,20 @@ public class IProductService implements ProductService{
     }
 
     @Override
-    public Product create(Product product) {
+    public Product create(ProductDTO productDTO) {
+        Product product = new Product();
+        product.setName(productDTO.getName());
+        product.setPrice(productDTO.getPrice());
         return productRepository.save(product);
     }
 
     @Override
-    public Product update(Long id, Product product) {
+    public Product update(Long id,ProductDTO productDTO) {
         Product existingProduct = productRepository.findById(id).orElse(null);
 
         if(existingProduct != null){
-            existingProduct.setName(product.getName());
-            existingProduct.setPrice(product.getPrice());
+            existingProduct.setName(productDTO.getName());
+            existingProduct.setPrice(productDTO.getPrice());
 
             return productRepository.save(existingProduct);
         }

@@ -1,5 +1,6 @@
 package com.vn.ECommerce.Service;
 
+import com.vn.ECommerce.DTO.SignupDTO;
 import com.vn.ECommerce.Model.User;
 import com.vn.ECommerce.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +18,15 @@ public class IUserService implements UserService{
     }
 
     @Override
-    public User saveUser(User user) {
+    public User saveUser(SignupDTO signupDTO) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        String encodedPassword = passwordEncoder.encode(user.getPassword());
-        user.setPassword(encodedPassword);
+        String encodedPassword = passwordEncoder.encode(signupDTO.getPassword());
+        signupDTO.setPassword(encodedPassword);
+
+        User user = new User();
+        user.setEmail(signupDTO.getEmail());
+        user.setUsername(signupDTO.getUsername());
+        user.setPassword(signupDTO.getPassword());
 
         return userRepository.save(user);
     }

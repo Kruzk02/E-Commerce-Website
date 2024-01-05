@@ -47,7 +47,7 @@ public class ProductController {
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/create")
     public ResponseEntity<Product> createProduct(@RequestBody ProductDTO productDTO) {
-        Product product = productService.create(dtoToEntity(productDTO));
+        Product product = productService.create(productDTO);
         logger.info("Created product with id {}", product.getId());
         return ResponseEntity.status(HttpStatus.CREATED).body(product);
     }
@@ -56,7 +56,7 @@ public class ProductController {
     @PutMapping("/update/{id}")
     public ResponseEntity<Product> updateProduct(@PathVariable Long id, @RequestBody ProductDTO productDTO) {
         try {
-            Product product = productService.update(id, dtoToEntity(productDTO));
+            Product product = productService.update(id,productDTO);
             logger.info("Updated product with id {}", id);
             return ResponseEntity.ok(product);
         } catch (Exception e) {
@@ -76,13 +76,6 @@ public class ProductController {
             logger.warn("Product with id {} not found for delete", id);
             return ResponseEntity.notFound().build();
         }
-    }
-
-    private Product dtoToEntity(ProductDTO productDTO) {
-        Product product = new Product();
-        product.setName(productDTO.getName());
-        product.setPrice(productDTO.getPrice());
-        return product;
     }
 }
 
