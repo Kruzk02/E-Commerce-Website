@@ -1,12 +1,18 @@
 package com.vn.ECommerce.Service;
 
+import com.vn.ECommerce.DTO.CartDTO;
 import com.vn.ECommerce.Model.Cart;
+import com.vn.ECommerce.Model.Product;
+import com.vn.ECommerce.Model.User;
 import com.vn.ECommerce.Repository.CartRepository;
+import com.vn.ECommerce.Repository.ProductRepository;
+import com.vn.ECommerce.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ICartService implements CartService {
@@ -24,7 +30,10 @@ public class ICartService implements CartService {
     }
 
     @Override
-    public Cart addCart(Cart cart) {
+    public Cart addCart(CartDTO cartDTO) {
+        Cart cart = new Cart();
+        cart.setUser(cartDTO.getUser());
+        cart.setProducts(cartDTO.getProducts());
         return cartRepository.save(cart);
     }
 
