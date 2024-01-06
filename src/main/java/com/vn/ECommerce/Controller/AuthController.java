@@ -3,6 +3,7 @@ package com.vn.ECommerce.Controller;
 import com.vn.ECommerce.DTO.LoginDTO;
 import com.vn.ECommerce.DTO.SignupDTO;
 import com.vn.ECommerce.Model.User;
+import com.vn.ECommerce.Service.IUserService;
 import com.vn.ECommerce.Service.UserService;
 import io.micrometer.common.util.StringUtils;
 import org.slf4j.LoggerFactory;
@@ -22,11 +23,11 @@ import org.slf4j.Logger;
 @RestController
 @RequestMapping("/api")
 public class AuthController {
-    private final UserService userService;
+    private final IUserService userService;
     private final AuthenticationManager authenticationManager;
     private final Logger logger = LoggerFactory.getLogger(AuthController.class);
     @Autowired
-    public AuthController(UserService userService, AuthenticationManager authenticationManager) {
+    public AuthController(IUserService userService, AuthenticationManager authenticationManager) {
         this.userService = userService;
         this.authenticationManager = authenticationManager;
     }

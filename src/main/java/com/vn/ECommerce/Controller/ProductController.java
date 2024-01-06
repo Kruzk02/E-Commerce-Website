@@ -2,6 +2,7 @@ package com.vn.ECommerce.Controller;
 
 import com.vn.ECommerce.DTO.ProductDTO;
 import com.vn.ECommerce.Model.Product;
+import com.vn.ECommerce.Service.IProductService;
 import com.vn.ECommerce.Service.ProductService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,11 +18,11 @@ import java.util.List;
 @RequestMapping("/api/products")
 public class ProductController {
 
-    private final ProductService productService;
+    private final IProductService productService;
     private final Logger logger = LoggerFactory.getLogger(ProductController.class);
 
     @Autowired
-    public ProductController(ProductService productService) {
+    public ProductController(IProductService productService) {
         this.productService = productService;
     }
 
