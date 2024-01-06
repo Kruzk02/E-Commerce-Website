@@ -2,9 +2,9 @@ package com.vn.ECommerce.Controller;
 
 import com.vn.ECommerce.DTO.LoginDTO;
 import com.vn.ECommerce.DTO.SignupDTO;
+import com.vn.ECommerce.Jwt.JwtService;
 import com.vn.ECommerce.Model.User;
 import com.vn.ECommerce.Service.IUserService;
-import com.vn.ECommerce.Service.UserService;
 import io.micrometer.common.util.StringUtils;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,15 +20,20 @@ import org.springframework.web.bind.annotation.RestController;
 
 import org.slf4j.Logger;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api")
 public class AuthController {
     private final IUserService userService;
+    private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
     private final Logger logger = LoggerFactory.getLogger(AuthController.class);
     @Autowired
-    public AuthController(IUserService userService, AuthenticationManager authenticationManager) {
+    public AuthController(IUserService userService, JwtService jwtService, AuthenticationManager authenticationManager) {
         this.userService = userService;
+        this.jwtService = jwtService;
         this.authenticationManager = authenticationManager;
     }
 
@@ -46,8 +51,10 @@ public class AuthController {
                     loginDTO.getUsername(), loginDTO.getPassword()));
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
+            String token = jwtService.generateToken(loginDTO.getUsername());
+
             logger.info("User '{}' logged in successfully.", loginDTO.getUsername());
-            return ResponseEntity.ok("successfully Login.");
+            return ResponseEntity.ok(token);
         }catch (Exception e){
             logger.warn("Login failed for username: {}",loginDTO.getUsername());
             return ResponseEntity.status(401).body("Invalid username or password");
