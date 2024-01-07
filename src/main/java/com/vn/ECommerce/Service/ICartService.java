@@ -38,7 +38,10 @@ public class ICartService implements CartService {
     }
 
     @Override
-    public void updateCart(Cart cart) {
+    public void updateCart(CartDTO cartDTO) {
+        Cart cart = new Cart();
+        cart.setUser(cartDTO.getUser());
+        cart.setProducts(cartDTO.getProducts());
         cartRepository.save(cart);
     }
 
